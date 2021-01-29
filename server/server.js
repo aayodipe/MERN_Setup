@@ -1,24 +1,21 @@
+import config from './../config/config.js';
+import app from './express.js';
+import mongoose from 'mongoose';
 import express from 'express';
-import devBundle from './devBundles';
-import path from 'path';
-import template from './../template'
-import config from '../webpack.config.client';
-import connectDB from '../database/db'
-const app = express()
-devBundle.compile(app)
-const CURRENT_WORKING_DIR = process.cwd()
-app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
+app.use(express.static('client')) // Server static files like images and css
 
-app.get('/', (req, res) => {
-   res.status(200).send(template())
-})
-//Connect to Database
-connectDB()
+//Database
+mongoose.Promise = global.Promise;
+mongoose.connect(config.mongoUri, 
+        { useNewUrlParser: true, 
+          useCreateIndex: true,         
+          useUnifiedTopology: true })
 
-let port = process.env.PORT || 3000
-app.listen(port, function onStart(err) {
- if (err) {
-  console.log(err) 
- }
- console.info('Server started on port %s.', port)
+mongoose.connection.on('error', ()=> {
+    throw new Error(`Unable to connect to database ${mongoUri}`)})
+
+//Server
+app.listen(config.port, err => {
+    if(err) console.log('Unable to connect to server')
+    console.log('Server on port '+ config.port)
 })

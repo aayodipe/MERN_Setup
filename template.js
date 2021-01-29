@@ -1,4 +1,4 @@
-export default () => {
+export default  () => {
     return `<!doctype html>
      <html lang="en">
       <head>
@@ -6,7 +6,7 @@ export default () => {
        <title>MERN Kickstart</title>
       </head>
       <body>
-       <div id="root"></div>
+       <div id="root">Hello World!</div>
        <script type="text/javascript" src="/dist/bundle.js"> 
       </script>
       </body>

@@ -1,10 +1,11 @@
+import config from '../config/config.js';
 import mongoose from 'mongoose';
-import sconfig from 'config'
-const dbURL = sconfig.get('Mongo_URL')
+mongoose.Promise = global.Promise
+const MongoDB_URL = config.mongoUri
 // Content to Database
 const connectDB = async () => {
     try {
-        const MongoDB_URL = process.env.MONGODB_URI || dbURL
+     
         //connect to mongoose
         await mongoose.connect(MongoDB_URL, {
             useNewUrlParser: true,
